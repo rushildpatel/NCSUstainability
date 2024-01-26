@@ -37,15 +37,25 @@ router.post("/login", passport.authenticate("local",
             failureRedirect:"/login",
             failureFlash: true
         }),function(req,res){
+            console.log("User Logged in!");
 });
 
-router.get("/logout",function(req,res){
+// router.get("/logout",function(req,res){
+//     req.flash("success", "Successfully logged you out!");
+//     req.logout();
+//     res.redirect("/");
+// });
+
+router.get('/logout', function(req, res, next) {
     req.flash("success", "Successfully logged you out!");
-    req.logout();
-    res.redirect("/");
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      res.redirect('/');
+    });
 });
 
 router.get("/about",function(req,res){
     res.render("about");
 });
+
 module.exports = router;
