@@ -2,6 +2,7 @@ var express = require("express");
 var router  = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
+const { exec } = require('child_process');
 
 router.get("/",function(req,res){
     res.render("landing");
@@ -56,6 +57,18 @@ router.get('/logout', function(req, res, next) {
 
 router.get("/about",function(req,res){
     res.render("about");
+});
+
+// Replace 'your_python_script.py' with the actual name of your Python script
+const pythonScript = 'analysis/Tuffy/analysis.py';
+
+// Execute the Python script
+exec(`python ${pythonScript}`, (error, stdout, stderr) => {
+  if (error) {
+    console.error(`Error executing Python script: ${error.message}`);
+    return;
+  }
+  console.log(`Python script output:\n${stdout}`);
 });
 
 module.exports = router;
