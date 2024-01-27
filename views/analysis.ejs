@@ -1,6 +1,6 @@
 <%- include("partials/header") %>
 
-<div class="container mt-5">
+<!-- <div class="container mt-5">
   <h1 class="display-4 text-center mb-4">Upload your CSV File Upload</h1>
 
   <div class="text-center">
@@ -17,6 +17,31 @@
     <h4>Uploaded File:</h4>
     <p id="fileName"></p>
   </div>
+</div> -->
+<div class="container mt-5">
+  <h1 class="display-4 text-center mb-4">EJS Button Example</h1>
+
+  <div class="text-center">
+    <a href="/analysis/tuffys"><button type="button" class="btn btn-primary btn-lg">Tuffys Dinner</button></a>
+    <a href="/analysis/diningHall"><button type="button" class="btn btn-success btn-lg">Clark Dining Hall</button></a>
+  </div>
+
+  <div class="mt-4 text-center" id="renderedContent">
+    <!-- Content from the clicked button will be rendered here -->
+  </div>
 </div>
+
+<script>
+  function renderFirstPage() {}
+
+  function renderSecondPage() {
+    // Load the content of the second page into the renderedContent div
+    fetch("/render/secondPage")
+      .then((response) => response.text())
+      .then((data) => {
+        document.getElementById("renderedContent").innerHTML = data;
+      });
+  }
+</script>
 
 <%- include("partials/footer.ejs") %>

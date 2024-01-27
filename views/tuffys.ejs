@@ -1,0 +1,23 @@
+<%- include("partials/header") %>
+<h1>Tuffys Diner Data Analysis</h1>
+
+<div class="container mt-5">
+  <h1 class="display-4 text-center mb-4">Upload your Excel File</h1>
+
+  <div class="text-center">
+    <form enctype="multipart/form-data" action="/analysis/tuffys/upload_xlsx" method="post">
+      <div class="mb-3">
+        <label for="excelFile" class="form-label">Choose an .xlsx file:</label>
+        <input class="form-control" type="file" name="excelFile" id="excelFile" accept=".xlsx" required />
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg">Upload</button>
+    </form>
+  </div>
+
+  <div class="mt-4 text-center" id="uploadedFileName" style="display: none">
+    <h4>Uploaded File:</h4>
+    <p id="fileName"></p>
+  </div>
+</div>
+
+<%- include("partials/footer.ejs") %>

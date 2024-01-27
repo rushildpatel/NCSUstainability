@@ -62,20 +62,10 @@ router.get("/about", function (req, res) {
   res.render("about");
 });
 
-router.get("/analysis", function (req, res) {
-  // Replace 'your_python_script.py' with the actual name of your Python script
-  const pythonScript = "analysis/Tuffy/analysis.py";
-
-  //   Execute the Python script
-  exec(`python ${pythonScript}`, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error executing Python script: ${error.message}`);
-      return;
-    }
-    console.log(`Python script output:\n${stdout}`);
-  });
-  res.render("analysis");
-});
+// router.get("/analysis", function (req, res) {
+//   // Replace 'your_python_script.py' with the actual name of your Python script
+//   res.render("analysis");
+// });
 
 router.get("/inventory", function (req, res) {
   res.render("inventory");
@@ -83,36 +73,6 @@ router.get("/inventory", function (req, res) {
 
 router.get("/excessFood", function (req, res) {
   res.render("excessFood");
-});
-
-router.post("/analysis/upload_csv", upload.single("csvFile"), function (req, res) {
-  //   console.log(req.file);
-  if (!req.file) {
-    return res.status(400).send("No file uploaded.");
-  }
-
-  const fileBuffer = req.file.buffer;
-  // console.log(fileBuffer.toString());
-
-  const fileName = req.file.originalname;
-  console.log(fileName);
-
-  const uploadDir = path.join(process.env.BASE_DIR, "data");
-  console.log(uploadDir);
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir);
-  }
-
-  const filePath = uploadDir + "/" + fileName;
-  fs.writeFile(filePath, fileBuffer, (err) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send("Error saving the file.");
-    }
-
-    console.log("File saved successfully:", filePath);
-    res.send("File uploaded and saved successfully!");
-  });
 });
 
 module.exports = router;

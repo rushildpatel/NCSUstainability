@@ -149,3 +149,5 @@ all_data = consolidate_sheet()
 all_data_cleaned = clean_data(all_data)
 unique_item_counts = all_data_cleaned['Item Count'].unique()
 sales_trends()
+
+exit()
