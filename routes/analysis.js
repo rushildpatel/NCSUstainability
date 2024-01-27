@@ -9,15 +9,15 @@ const upload = multer({ storage: storage });
 
 router.get("/", function (req, res) {
   // Replace 'your_python_script.py' with the actual name of your Python script
-  res.render("analysis");
+  res.render("analysis/index");
 });
 
 router.get("/tuffys", function (req, res) {
-  res.render("tuffys");
+  res.render("analysis/tuffys");
 });
 
 router.get("/diningHall", function (req, res) {
-  res.render("diningHall");
+  res.render("analysis/diningHall");
 });
 
 router.post("/tuffys/upload_xlsx", upload.single("excelFile"), function (req, res) {
@@ -54,10 +54,12 @@ router.post("/tuffys/upload_xlsx", upload.single("excelFile"), function (req, re
         return;
       }
       console.log(`Python script output:\n${stdout}`);
+      res.status(200);
+      // res.send("File uploaded and saved successfully!");
+      res.render("analysis/graph");
     });
 
-    res.status(200);
-    // res.send("File uploaded and saved successfully!");
+    
   });
 });
 
