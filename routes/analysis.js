@@ -56,7 +56,7 @@ router.post("/tuffys/upload_xlsx", upload.single("excelFile"), function (req, re
       console.log(`Python script output:\n${stdout}`);
       res.status(200);
       // res.send("File uploaded and saved successfully!");
-      res.render("analysis/graph");
+      res.render("analysis/graph_tuffy");
     });
   });
 });

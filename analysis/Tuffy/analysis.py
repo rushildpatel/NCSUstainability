@@ -30,7 +30,7 @@ def clear_directory(directory_path):
         # print(f"The directory {directory_path} does not exist.")
 
 # Example usage
-directory_to_clear = BASE_DIR + '/graphs/tuffys'
+directory_to_clear = BASE_DIR + '/public/images/graphs/tuffys'
 clear_directory(directory_to_clear)
 
 
@@ -99,7 +99,7 @@ def sales_trends():
     plt.grid(True)
     # plt.show()
     
-    plt.savefig(BASE_DIR + '/graphs/tuffys/sales_trends.png')
+    plt.savefig(BASE_DIR + '/public/images/graphs/tuffys/sales_trends.png')
 
     # Analysis 2: Most Popular Items
     # Summing up the total item count per item and sorting
@@ -113,7 +113,7 @@ def sales_trends():
     plt.ylabel('Total Quantity Sold')
     plt.xticks(rotation=45, ha='right')
     # plt.show()
-    plt.savefig(BASE_DIR + '/graphs/tuffys/popular_items.png')
+    plt.savefig(BASE_DIR + '/public/images/graphs/tuffys/popular_items.png')
 
     # Analysis 3: Daily Sales Patterns
     # Summing up the total sales amount per day
@@ -127,7 +127,7 @@ def sales_trends():
     plt.ylabel('Total Sales Amount ($)')
     plt.xticks(range(1, 23))
     # plt.show()
-    plt.savefig(BASE_DIR + '/graphs/tuffys/daily_sales.png')
+    plt.savefig(BASE_DIR + '/public/images/graphs/tuffys/daily_sales.png')
 
     # Analysis 4: Item-Level Analysis
     # Summing up the total sales amount per item and sorting
@@ -141,7 +141,7 @@ def sales_trends():
     plt.ylabel('Total Sales Amount ($)')
     plt.xticks(rotation=45, ha='right')
     # plt.show()
-    plt.savefig(BASE_DIR + '/graphs/tuffys/item_sales.png')
+    plt.savefig(BASE_DIR + '/public/images/graphs/tuffys/item_sales.png')
 
     return 0
 
