@@ -31,6 +31,9 @@ def clear_directory(directory_path):
         pass
         # print(f"The directory {directory_path} does not exist.")
 
+directory_to_clear = BASE_DIR + '/graphs/clark'
+clear_directory(directory_to_clear)
+
 def eda():
     df['Date'] = pd.to_datetime(df['Date'])
     df.set_index('Date', inplace=True)
@@ -42,7 +45,8 @@ def eda():
     plt.xlabel('Date')
     plt.ylabel('Footfall')
     plt.grid(True)
-    plt.show()
+    # plt.show()
+    # plt.savefig(BASE_DIR + '/graphs/clark/eda1.png')
 
     # Decomposing the time series to observe trend, seasonality, and residuals
     decomposition = seasonal_decompose(df['FootFall'], model='additive', period=7) # Assuming a weekly seasonality
@@ -53,7 +57,8 @@ def eda():
     decomposition.seasonal.plot(ax=ax2, title='Seasonality')
     decomposition.resid.plot(ax=ax3, title='Residuals')
     plt.tight_layout()
-    plt.show()
+    # plt.show()
+    # plt.savefig(BASE_DIR + '/graphs/clark/eda2.png')
 
 def differencing():
     df['D_diff'] = df['FootFall'].diff()
@@ -63,7 +68,8 @@ def differencing():
     plt.title('Differenced Time Series: Dinner Orders')
     plt.xlabel('Date')
     plt.ylabel('Dinner Orders Count (Differenced)')
-    plt.show()
+    # plt.show()
+
 
 def check_differencing():
     result_diff = adfuller(df['D_diff'].dropna())
@@ -110,14 +116,15 @@ def forecasting(sarima_results):
     plt.ylabel('Footfall')
     plt.legend()
     plt.grid(True)
-    plt.show()
+    # plt.show()
+    plt.savefig(BASE_DIR + '/graphs/clark/forecasting.png')
 
 
 directory_to_clear = BASE_DIR + '/graphs/clark'
 clear_directory(directory_to_clear)
 
 # Load the CSV file
-file_path = BASE_DIR + '/data/Clark_Data.csv'
+file_path = BASE_DIR + '/data/clark_data.csv'
 df = pd.read_csv(file_path)
 eda()
 differencing()

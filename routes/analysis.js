@@ -58,51 +58,49 @@ router.post("/tuffys/upload_xlsx", upload.single("excelFile"), function (req, re
       // res.send("File uploaded and saved successfully!");
       res.render("analysis/graph");
     });
-
-    
   });
 });
 
 router.post("/diningHall/upload_csv", upload.single("csvFile"), function (req, res) {
   console.log("hello");
-  res.send("Post req successful!");
-  //   if (!req.file) {
-  //     return res.status(400).send("No file uploaded.");
-  //   }
 
-  //   const fileBuffer = req.file.buffer;
-  //   // console.log(fileBuffer.toString());
-  //   const fileName = req.file.originalname;
-  //   // console.log(fileName);
+  if (!req.file) {
+    return res.status(400).send("No file uploaded.");
+  }
 
-  //   const uploadDir = path.join(process.env.BASE_DIR, "data");
-  //   console.log(uploadDir);
-  //   if (!fs.existsSync(uploadDir)) {
-  //     fs.mkdirSync(uploadDir);
-  //   }
+  const fileBuffer = req.file.buffer;
+  // console.log(fileBuffer.toString());
+  const fileName = req.file.originalname;
+  // console.log(fileName);
 
-  //   const filePath = uploadDir + "/" + "clark_data.csv";
-  //   fs.writeFile(filePath, fileBuffer, (err) => {
-  //     if (err) {
-  //       console.error(err);
-  //       return res.status(500).send("Error saving the file.");
-  //     }
+  const uploadDir = path.join(process.env.BASE_DIR, "data");
+  console.log(uploadDir);
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+  }
 
-  //     console.log("File saved successfully:", filePath);
+  const filePath = uploadDir + "/" + "clark_data.csv";
+  fs.writeFile(filePath, fileBuffer, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error saving the file.");
+    }
 
-  //     //   Execute the Python script
-  //     const pythonScript = process.env.BASE_DIR + "/analysis/Clark/analysis.py";
-  //     exec(`python ${pythonScript}`, (error, stdout, stderr) => {
-  //       if (error) {
-  //         console.error(`Error executing Python script: ${error.message}`);
-  //         return;
-  //       }
-  //       console.log(`Python script output:\n${stdout}`);
-  //     });
+    console.log("File saved successfully:", filePath);
+    //   Execute the Python script
+    const pythonScript = process.env.BASE_DIR + "/analysis/Clark/analysis.py";
+    exec(`python ${pythonScript}`, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error executing Python script: ${error.message}`);
+        return;
+      }
+      console.log(`Python script output:\n${stdout}`);
+    });
 
-  //     res.status(200);
-  //     // res.send("File uploaded and saved successfully!");
-  //   });
+    res.status(200);
+    // res.send("File uploaded and saved successfully!");
+    res.render("analysis/graph_clark");
+  });
 });
 
 module.exports = router;
