@@ -63,17 +63,17 @@ router.get("/about", function (req, res) {
 });
 
 router.get("/analysis", function (req, res) {
-    // Replace 'your_python_script.py' with the actual name of your Python script
-    const pythonScript = "analysis/Tuffy/analysis.py";
+  // Replace 'your_python_script.py' with the actual name of your Python script
+  const pythonScript = "analysis/Tuffy/analysis.py";
 
-    // Execute the Python script
-    exec(`python ${pythonScript}`, (error, stdout, stderr) => {
+  //   Execute the Python script
+  exec(`python ${pythonScript}`, (error, stdout, stderr) => {
     if (error) {
-        console.error(`Error executing Python script: ${error.message}`);
-        return;
+      console.error(`Error executing Python script: ${error.message}`);
+      return;
     }
     console.log(`Python script output:\n${stdout}`);
-    });
+  });
   res.render("analysis");
 });
 

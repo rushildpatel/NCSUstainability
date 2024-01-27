@@ -2,10 +2,40 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from statsmodels.tsa.arima.model import ARIMA
+from dotenv import load_dotenv
 import numpy as np
+import os
+import shutil
+
+load_dotenv()
+BASE_DIR = os.getenv('BASE_DIR')
+
+def clear_directory(directory_path):
+    # Check if the directory exists
+    if os.path.exists(directory_path):
+        # Iterate over all the entries in the directory
+        for entry in os.listdir(directory_path):
+            entry_path = os.path.join(directory_path, entry)
+
+            # If it's a file, delete it
+            if os.path.isfile(entry_path):
+                os.unlink(entry_path)
+
+            # If it's a directory, delete it recursively
+            elif os.path.isdir(entry_path):
+                shutil.rmtree(entry_path)
+
+    else:
+        pass
+        # print(f"The directory {directory_path} does not exist.")
+
+# Example usage
+directory_to_clear = BASE_DIR + '/graphs/tuffys'
+clear_directory(directory_to_clear)
+
 
 # Load the Excel file
-file_path = 'analysis/Tuffy/data_updated.xlsx'
+file_path = BASE_DIR + '/data/tuffy_data.xlsx'
 
 # Reading the Excel file to see the sheet names and the structure of the data
 xls = pd.ExcelFile(file_path)
@@ -67,7 +97,9 @@ def sales_trends():
     plt.ylabel('Total Sales Amount ($)')
     plt.xticks(range(1, 23))
     plt.grid(True)
-    plt.show()
+    # plt.show()
+    
+    plt.savefig(BASE_DIR + '/graphs/tuffys/sales_trends.png')
 
     # Analysis 2: Most Popular Items
     # Summing up the total item count per item and sorting
@@ -80,7 +112,8 @@ def sales_trends():
     plt.xlabel('Item')
     plt.ylabel('Total Quantity Sold')
     plt.xticks(rotation=45, ha='right')
-    plt.show()
+    # plt.show()
+    plt.savefig(BASE_DIR + '/graphs/tuffys/popular_items.png')
 
     # Analysis 3: Daily Sales Patterns
     # Summing up the total sales amount per day
@@ -93,7 +126,8 @@ def sales_trends():
     plt.xlabel('Day')
     plt.ylabel('Total Sales Amount ($)')
     plt.xticks(range(1, 23))
-    plt.show()
+    # plt.show()
+    plt.savefig(BASE_DIR + '/graphs/tuffys/daily_sales.png')
 
     # Analysis 4: Item-Level Analysis
     # Summing up the total sales amount per item and sorting
@@ -106,7 +140,9 @@ def sales_trends():
     plt.xlabel('Item')
     plt.ylabel('Total Sales Amount ($)')
     plt.xticks(rotation=45, ha='right')
-    plt.show()
+    # plt.show()
+    plt.savefig(BASE_DIR + '/graphs/tuffys/item_sales.png')
+
     return 0
 
 all_data = consolidate_sheet()
