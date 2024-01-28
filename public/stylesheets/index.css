@@ -38,3 +38,7 @@ body {
 .nav-item{
   font-weight: 600;
 }
+
+.form-group{
+  margin-bottom: 10px;
+}

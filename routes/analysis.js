@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+var middleware = require("../middleware");
 const { exec } = require("child_process");
 const multer = require("multer");
 const path = require("path");
@@ -7,20 +8,20 @@ const fs = require("fs"); // Include the fs module
 const storage = multer.memoryStorage(); // Store the file in memory
 const upload = multer({ storage: storage });
 
-router.get("/", function (req, res) {
+router.get("/", middleware.isLoggedIn, function (req, res) {
   // Replace 'your_python_script.py' with the actual name of your Python script
   res.render("analysis/index");
 });
 
-router.get("/tuffys", function (req, res) {
+router.get("/tuffys", middleware.isLoggedIn, function (req, res) {
   res.render("analysis/tuffys");
 });
 
-router.get("/diningHall", function (req, res) {
+router.get("/diningHall",middleware.isLoggedIn, function (req, res) {
   res.render("analysis/diningHall");
 });
 
-router.post("/tuffys/upload_xlsx", upload.single("excelFile"), function (req, res) {
+router.post("/tuffys/upload_xlsx", middleware.isLoggedIn, upload.single("excelFile"), function (req, res) {
   console.log("hello");
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
@@ -61,7 +62,7 @@ router.post("/tuffys/upload_xlsx", upload.single("excelFile"), function (req, re
   });
 });
 
-router.post("/diningHall/upload_csv", upload.single("csvFile"), function (req, res) {
+router.post("/diningHall/upload_csv", middleware.isLoggedIn, upload.single("csvFile"), function (req, res) {
   console.log("hello");
 
   if (!req.file) {

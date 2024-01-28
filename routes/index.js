@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
+var middleware = require("../middleware");
 const { exec } = require("child_process");
 const multer = require("multer");
 const path = require("path");
@@ -61,25 +62,21 @@ router.get("/logout", function (req, res, next) {
   });
 });
 
-router.get("/about", function (req, res) {
-  res.render("about");
-});
-
-// router.get("/analysis", function (req, res) {
-//   // Replace 'your_python_script.py' with the actual name of your Python script
-//   res.render("analysis");
+// router.get("/about", function (req, res) {
+//   res.render("about");
 // });
 
-router.get("/distribution", function (req, res) {
+
+router.get("/distribution", middleware.isLoggedIn, function (req, res) {
   res.render("distribution");
 });
 
-router.get("/expiry", function (req, res) {
+router.get("/expiry", middleware.isLoggedIn, function (req, res) {
   const data = [];
     res.render("expiry", {data});
 });
 
-router.post("/expiry", upload.single("csvFile"), function (req, res) {
+router.post("/expiry", middleware.isLoggedIn, upload.single("csvFile"), function (req, res) {
   const data = [];
 
   if (!req.file) {

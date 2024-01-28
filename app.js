@@ -1,23 +1,23 @@
-var express = require("express"),
-  mongoose = require("mongoose"),
-  bodyParser = require("body-parser"),
-  methodOverride = require("method-override"),
-  flash = require("connect-flash"),
-  dotenv = require("dotenv"),
-  passport = require("passport"),
-  LocalStrategy = require("passport-local"),
-  User = require("./models/user"),
-  app = express(),
-  csv = require('csv-parser'),
-  fs = require('fs');
+var express       = require("express"),
+  mongoose        = require("mongoose"),
+  bodyParser      = require("body-parser"),
+  methodOverride  = require("method-override"),
+  flash           = require("connect-flash"),
+  dotenv          = require("dotenv"),
+  passport        = require("passport"),
+  LocalStrategy   = require("passport-local"),
+  User            = require("./models/user"),
+  app             = express(),
+  csv             = require('csv-parser'),
+  fs              = require('fs');
 
 app.set('view engine', 'ejs');
 
-  var indexRoutes = require("./routes/index");
+var indexRoutes = require("./routes/index");
 var analysisRoutes = require("./routes/analysis.js");
 dotenv.config();
 mongoose
-  .connect(`mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.2ecwzmd.mongodb.net/?retryWrites=true&w=majority`)
+  .connect(`mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.2ecwzmd.mongodb.net/NCSUstainability?retryWrites=true&w=majority`)
   .then(() => {
     console.log("Connected to DB!");
   })
