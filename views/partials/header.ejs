@@ -4,34 +4,18 @@
     <title>NCSUstainability</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <!-- Logo on the left side -->
         <a class="navbar-brand" href="#">
-          <img
-            src="your-logo.png"
-            alt="Your Logo"
-            height="30"
-            class="d-inline-block align-top"
-          />
+          <img src="your-logo.png" alt="Your Logo" height="30" class="d-inline-block align-top" />
         </a>
 
         <!-- Navbar toggler for small screens -->
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -42,16 +26,13 @@
               <a class="nav-link" href="/analysis">Analysis</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/inventory">Manage Inventory</a>
+              <a class="nav-link" href="http://127.0.0.1:8000/">Manage Inventory</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/excessFood">Excess Food</a>
             </li>
           </ul>
-          <ul
-            class="navbar-nav navbar-right"
-            style="left: auto !important; right: 0px"
-          >
+          <ul class="navbar-nav navbar-right" style="left: auto !important; right: 0px">
             <li>
               <a class="nav-link" href="/about">About</a>
             </li>
@@ -70,17 +51,11 @@
     </nav>
     <div class="container">
       <% if(error && error.length > 0) { %>
-      <div
-        style="height: 50px; width: 65%; margin-left: 17.5%"
-        class="alert alert-danger text-center mt-3"
-      >
+      <div style="height: 50px; width: 65%; margin-left: 17.5%" class="alert alert-danger text-center mt-3">
         <p><%=error %></p>
       </div>
       <% } %> <% if(success && success.length > 0) { %>
-      <div
-        style="height: 50px; width: 65%; margin-left: 17.5%"
-        class="alert alert-success text-center mt-3"
-      >
+      <div style="height: 50px; width: 65%; margin-left: 17.5%" class="alert alert-success text-center mt-3">
         <p><%= success %></p>
       </div>
       <% } %>

@@ -31,7 +31,7 @@ def clear_directory(directory_path):
         pass
         # print(f"The directory {directory_path} does not exist.")
 
-directory_to_clear = BASE_DIR + '/graphs/clark'
+directory_to_clear = BASE_DIR + '/public/images/graphs/clark'
 clear_directory(directory_to_clear)
 
 def eda():
@@ -117,11 +117,8 @@ def forecasting(sarima_results):
     plt.legend()
     plt.grid(True)
     # plt.show()
-    plt.savefig(BASE_DIR + '/graphs/clark/forecasting.png')
+    plt.savefig(BASE_DIR + '/public/images/graphs/clark/forecasting.png')
 
-
-directory_to_clear = BASE_DIR + '/graphs/clark'
-clear_directory(directory_to_clear)
 
 # Load the CSV file
 file_path = BASE_DIR + '/data/clark_data.csv'
