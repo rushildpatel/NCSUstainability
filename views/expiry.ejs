@@ -1,0 +1,49 @@
+<%- include("partials/header") %>
+<h1 class="mt-4 mb-4">Excess Food</h1>
+
+<div class="container mt-5">
+
+  <h1 class="display-4 text-center mb-4">Upload your CSV File Upload</h1>
+
+  <div class="text-center">
+    <form enctype="multipart/form-data" action="/expiry" method="post">
+      <div class="mb-3">
+        <label for="csvFile" class="form-label">Choose a .csv file:</label>
+        <input class="form-control" type="file" name="csvFile" id="csvFile" accept=".csv" required />
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg">Upload</button>
+    </form>
+  </div>
+
+  <div class="mt-4 text-center" id="uploadedFileName" style="display: none">
+    <h4>Uploaded File:</h4>
+    <p id="fileName"></p>
+  </div>
+  <br>
+
+  <% if (data.length != 0) { %>
+  <table class="table table-bordered table-striped" style="background-color: pink; color: red;">
+    
+    <thead class="thead-dark">
+      <tr>
+        <% Object.keys(data[0]).forEach((header) => { %>
+          <th scope="col"><%= header %></th>
+        <% }); %>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.forEach((row) => { %>
+        <tr>
+          <% Object.values(row).forEach((value) => { %>
+            <td><%= value %></td>
+          <% }); %>
+        </tr>
+      <% }); %>
+      
+    </tbody>
+    
+  </table>
+  <% } %>
+</div>
+
+<%- include("partials/footer.ejs") %>

@@ -6,7 +6,10 @@ const { exec } = require("child_process");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs"); // Include the fs module
+const csv = require('csv-parser');
+const dotenv = require("dotenv");
 
+dotenv.config();
 const storage = multer.memoryStorage(); // Store the file in memory
 const upload = multer({ storage: storage });
 
@@ -67,12 +70,63 @@ router.get("/about", function (req, res) {
 //   res.render("analysis");
 // });
 
-router.get("/inventory", function (req, res) {
-  res.render("inventory");
+router.get("/distribution", function (req, res) {
+  res.render("distribution");
 });
 
-router.get("/excessFood", function (req, res) {
-  res.render("excessFood");
+router.get("/expiry", function (req, res) {
+  const data = [];
+    res.render("expiry", {data});
+});
+
+router.post("/expiry", upload.single("csvFile"), function (req, res) {
+  const data = [];
+
+  if (!req.file) {
+    return res.status(400).send("No file uploaded.");
+  }
+  const fileBuffer = req.file.buffer;
+  // console.log(fileBuffer.toString());
+  const fileName = req.file.originalname;
+  // console.log(fileName);
+
+  const uploadDir = path.join(process.env.BASE_DIR, "tracker");
+  console.log(uploadDir);
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+  }
+  const filePath = uploadDir + "/" + "data.csv";
+  
+  fs.writeFile(filePath, fileBuffer, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error saving the file.");
+    }
+
+    console.log("File saved successfully:", filePath);
+    //   Execute the Python script
+    const pythonScript = process.env.BASE_DIR + "/tracker/spoilt_tracker.py";
+    exec(`python ${pythonScript}`, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error executing Python script: ${error.message}`);
+        return;
+      }
+      console.log(`Python script output:\n${stdout}`);
+    });
+
+  });
+
+  // Read the output CSV file
+  fs.createReadStream(process.env.BASE_DIR + '/tracker/expired_goods_data.csv')
+    .pipe(csv())
+    .on('data', (row) => {
+      data.push(row);
+    })
+    .on('end', () => {
+      // Render the EJS template with the data
+      res.render("expiry", {data});
+    });
+  
 });
 
 module.exports = router;
