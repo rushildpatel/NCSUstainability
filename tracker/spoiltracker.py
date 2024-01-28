@@ -29,13 +29,13 @@ class ExpiryTracker:
         self.days = days
         self.shelf_life_data = {}
 
-
     def load_shelf_life_data(self):
         try:
             with open(self.shelf_life_file, 'r') as shelf_life_file:
                 reader = csv.reader(shelf_life_file)
                 next(reader)  # Skip header row
-                self.shelf_life_data = {row[0]: (row[1], row[2], int(row[3])) for row in reader}
+                self.shelf_life_data = {
+                    row[0]: (row[1], row[2], int(row[3])) for row in reader}
         except FileNotFoundError:
             ErrorMessage.file_not_found(self.shelf_life_file)
 
@@ -51,7 +51,8 @@ class ExpiryTracker:
             with open(self.history_file, 'r') as history_csv:
                 reader = csv.reader(history_csv)
                 header = next(reader)
-                rows = sorted(reader, key=lambda row: datetime.strptime(row[3], "%Y-%m-%d"))
+                rows = sorted(
+                    reader, key=lambda row: datetime.strptime(row[3], "%Y-%m-%d"))
                 with open(self.history_file, 'w', newline='') as history_csv:
                     writer = csv.writer(history_csv)
                     writer.writerow(header)
@@ -76,10 +77,11 @@ class ExpiryTracker:
                         existing_entries = set(tuple(row) for row in reader)
                 except FileNotFoundError:
                     pass
-                
+
                 for row in data:
                     try:
-                        expiration_date = datetime.strptime(row[3], "%Y-%m-%d").date()
+                        expiration_date = datetime.strptime(
+                            row[3], "%Y-%m-%d").date()
                         if (expiration_date - today) <= timedelta(days=days):
                             unique_row = tuple(row)
                             if unique_row not in existing_entries:
@@ -95,10 +97,12 @@ class ExpiryTracker:
         self.sort_expiry_report(output_dest)
 
     def sort_expiry_report(self, output_dest):
+
         try:
             with open(output_dest, 'r') as expiry_csv:
                 rows = list(csv.reader(expiry_csv))
-                sorted_rows = sorted(rows[1:], key=lambda row: datetime.strptime(row[3], "%Y-%m-%d").date())
+                sorted_rows = sorted(
+                    rows[1:], key=lambda row: datetime.strptime(row[3], "%Y-%m-%d").date())
 
             with open(output_dest, 'w', newline='') as expiry_csv:
                 writer = csv.writer(expiry_csv)
@@ -124,7 +128,7 @@ class ExpiryTracker:
             return
         print(existing_entries)
 
-        for row in existing_entries:            
+        for row in existing_entries:
             try:
                 expiration_date = datetime.strptime(row[3], "%Y-%m-%d").date()
                 if (expiration_date - today) <= timedelta(days=days):
@@ -179,10 +183,10 @@ class ExpiryTracker:
         try:
             with open(self.expiry_report_file, 'w', newline='') as expiry_csv:
                 writer = csv.writer(expiry_csv)
-                writer.writerow(["SKU", "Name", "Brand", "Expiration Date"])  # Write the header
+                # Write the header
+                writer.writerow(["SKU", "Name", "Brand", "Expiration Date"])
         except FileNotFoundError:
             ErrorMessage.file_not_found(self.expiry_report_file)
-
 
     def clear_history_file(self):
         header = ["SKU", "Name", "Brand", "Expiration Date"]
@@ -202,10 +206,14 @@ class ExpiryTracker:
                 next(reader)
                 for row in reader:
                     sku = row[0]
-                    name, brand, shelf_life = self.shelf_life_data.get(sku, ("Unknown", "Unknown", 0))
-                    production_date = datetime.strptime(str(prod_date), "%Y-%m-%d").date()
-                    expiration_date = self.calculate_expiration_date(production_date, shelf_life)
-                    data = [sku, name, brand, expiration_date.strftime("%Y-%m-%d")]
+                    name, brand, shelf_life = self.shelf_life_data.get(
+                        sku, ("Unknown", "Unknown", 0))
+                    production_date = datetime.strptime(
+                        str(prod_date), "%Y-%m-%d").date()
+                    expiration_date = self.calculate_expiration_date(
+                        production_date, shelf_life)
+                    data = [sku, name, brand,
+                            expiration_date.strftime("%Y-%m-%d")]
                     self.append_to_history(data)
                     history_data.append(data)
         except FileNotFoundError:
@@ -229,12 +237,14 @@ class ExpiryTracker:
                     today = datetime.now().date()
                     filtered_data = []
                     for row in table_data:
-                        expiration_date = datetime.strptime(row[3], "%Y-%m-%d").date()
+                        expiration_date = datetime.strptime(
+                            row[3], "%Y-%m-%d").date()
                         if (expiration_date - today) <= timedelta(days=self.days):
                             filtered_data.append(row)
 
                     # Generate the table with the filtered data
-                    pretty_table = tabulate(filtered_data, headers, tablefmt="pretty")
+                    pretty_table = tabulate(
+                        filtered_data, headers, tablefmt="pretty")
 
                     if show_console:
                         print(pretty_table)
@@ -247,7 +257,6 @@ class ExpiryTracker:
         except FileNotFoundError:
             ErrorMessage.file_not_found(output_dest)
 
-
     def run(self, csv_file=None, production_date=None, days=3, clear_expired=False, output_dest=None,
             clear_history=False, print_table=False):
         if csv_file and production_date:
@@ -255,7 +264,7 @@ class ExpiryTracker:
             history_data = self.process_csv(csv_file, production_date)
             self.append_to_expiry_report(history_data, days, output_dest)
         else:
-        #     print("inside run ")
+            #     print("inside run ")
             self.generate_expiry_report(days, output_dest)
 
         if print_table:
@@ -271,17 +280,26 @@ class ExpiryTracker:
             if self.clear_history_file():
                 print("History file cleared")
 
+
 def main1():
     print("xyz")
     parser = argparse.ArgumentParser()
-    parser.add_argument("--csv_file", help="CSV file containing SKUs", nargs="?")
-    parser.add_argument("--production_date", help="Production date (YYYY-MM-DD)", nargs="?")
-    parser.add_argument("--days", type=int, default=3, help="Threshold for number of days until expiration", nargs="?")
-    parser.add_argument("--clear-expired", action="store_true", help="Remove expired entries from history.csv and clear the expiry report file")
-    parser.add_argument("--output-dest", help="Destination file for the expiry report")
-    parser.add_argument("--clear-history", action="store_true", help="Clear the history file")
-    parser.add_argument("--batch", help="Directory containing files with SKUs to batch process (files must be named YYYY-MM-DD)", nargs="?")
-    parser.add_argument("--table", action="store_true", help="Outputs a pretty-printed expiry report as expiryreport.txt")
+    parser.add_argument(
+        "--csv_file", help="CSV file containing SKUs", nargs="?")
+    parser.add_argument("--production_date",
+                        help="Production date (YYYY-MM-DD)", nargs="?")
+    parser.add_argument("--days", type=int, default=3,
+                        help="Threshold for number of days until expiration", nargs="?")
+    parser.add_argument("--clear-expired", action="store_true",
+                        help="Remove expired entries from history.csv and clear the expiry report file")
+    parser.add_argument(
+        "--output-dest", help="Destination file for the expiry report")
+    parser.add_argument("--clear-history", action="store_true",
+                        help="Clear the history file")
+    parser.add_argument(
+        "--batch", help="Directory containing files with SKUs to batch process (files must be named YYYY-MM-DD)", nargs="?")
+    parser.add_argument("--table", action="store_true",
+                        help="Outputs a pretty-printed expiry report as expiryreport.txt")
     args = parser.parse_args()
     print(args)
     expiry_tracker = ExpiryTracker(days=args.days)
@@ -301,6 +319,7 @@ def main1():
     else:
         expiry_tracker.run(args.csv_file, args.production_date, args.days, args.clear_expired, args.output_dest,
                            args.clear_history, args.table)
+
 
 if __name__ == "__main__":
     print("hello")

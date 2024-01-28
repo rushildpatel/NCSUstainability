@@ -7,9 +7,13 @@ var express = require("express"),
   passport = require("passport"),
   LocalStrategy = require("passport-local"),
   User = require("./models/user"),
-  app = express();
+  app = express(),
+  csv = require('csv-parser'),
+  fs = require('fs');
 
-var indexRoutes = require("./routes/index");
+app.set('view engine', 'ejs');
+
+  var indexRoutes = require("./routes/index");
 var analysisRoutes = require("./routes/analysis.js");
 dotenv.config();
 mongoose
@@ -50,6 +54,26 @@ app.use(function (req, res, next) {
 
 app.use("/", indexRoutes);
 app.use("/analysis", analysisRoutes);
+
+
+
+
+app.get('/', (req, res) => {
+  const data = [];
+
+  // Read the CSV file
+  fs.createReadStream(process.env.BASE_DIR + '/public/output.csv')
+    .pipe(csv())
+    .on('data', (row) => {
+      data.push(row);
+    })
+    .on('end', () => {
+      // Render the EJS template with the data
+      res.render('index', { data });
+    });
+});
+
+
 
 app.listen(process.env.PORT, function () {
   console.log(`MeloDen server has started! http://localhost:${process.env.PORT}`);
