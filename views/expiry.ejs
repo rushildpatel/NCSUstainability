@@ -1,5 +1,5 @@
 <%- include("partials/header") %>
-<h1 class="mt-4 mb-4">Excess Food</h1>
+<h1 class="mt-4 mb-4">Expiry Tracking</h1>
 
 <div class="container mt-5">
 
@@ -26,9 +26,13 @@
     
     <thead class="thead-dark">
       <tr>
-        <% Object.keys(data[0]).forEach((header) => { %>
+        <th>SKU</th>
+        <th>Name</th>
+        <th>Brand</th>
+        <th>Shelf Life</th>
+        <!-- <% Object.keys(data[0]).forEach((header) => { %>
           <th scope="col"><%= header %></th>
-        <% }); %>
+        <% }); %> -->
       </tr>
     </thead>
     <tbody>

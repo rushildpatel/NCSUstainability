@@ -35,7 +35,7 @@
     </div>
   </div>
   <div class="container mt-5 text-center">
-    <button class="btn btn-primary" id="showTextBtn" style="cursor: pointer" onclick="toggleTextDisplay()">Show Text</button>
+    <button class="btn btn-primary" id="showTextBtn" style="cursor: pointer" onclick="toggleTextDisplay()">Generate AI insights</button>
 
     <div class="loader mt-3" id="loader" style="display: none; text-align: center">
       <div class="spinner-border" role="status" style="width: 3rem; height: 3rem">
@@ -43,8 +43,8 @@
       </div>
     </div>
 
-    <div id="displayText" style="display: none; margin-top: 20px; text-align: center">
-        <ol>
+    <div id="displayText" style="display: none; margin-top: 20px; text-align: left;">
+        <ul>
             <li>
                 <strong>Daily Sales Patterns (Bar Chart):</strong>
                 <p>This graph shows the total sales amount for a series of days, with noticeable variability. Peaks suggest days of high activity or successful sales promotions, while troughs could indicate typical off-days or lower sales weekdays.</p>
@@ -61,7 +61,7 @@
                 <strong>Sales Trends Over 22 Days (Line Chart):</strong>
                 <p>The line chart shows the total sales amount over a 22-day period, revealing volatility without a clear trend. Sharp drops and steep climbs suggest external factors affecting sales, such as promotional events or other circumstances.</p>
             </li>
-        </ol>
+        </ul>
     </div>
   </div>
 
