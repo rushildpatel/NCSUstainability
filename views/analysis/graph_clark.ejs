@@ -10,6 +10,43 @@
       <img src="/images/graphs/clark/forecasting.png" class="img-fluid" alt="Forcasting Image" />
     </div>
   </div>
+  <div class="container mt-5 text-center">
+    <button class="btn btn-primary" id="showTextBtn" style="cursor: pointer" onclick="toggleTextDisplay()">Show Text</button>
+
+    <div class="loader mt-3" id="loader" style="display: none; text-align: center">
+      <div class="spinner-border" role="status" style="width: 3rem; height: 3rem">
+        <span class="sr-only"></span>
+      </div>
+    </div>
+
+    <div id="displayText" style="display: none; margin-top: 20px; text-align: center">
+      <p>This is the text that will be displayed.</p>
+    </div>
+  </div>
+
+  <script>
+    function toggleTextDisplay() {
+      // Show loader
+      var loader = document.getElementById("loader");
+      loader.style.display = "block";
+
+      // Add a delay of 5 seconds before displaying the text
+      setTimeout(function () {
+        // Hide loader
+        loader.style.display = "none";
+
+        // Display text
+        var displayText = document.getElementById("displayText");
+        displayText.style.display = displayText.style.display === "none" ? "block" : "none";
+      }, 3000); // 5000 milliseconds = 5 seconds
+    }
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <br />
+  <br />
 </div>
 
 <%- include("../partials/footer.ejs") %>
