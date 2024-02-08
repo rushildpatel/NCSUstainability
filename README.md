@@ -59,4 +59,4 @@ SECRET=your_passport_session_secret
 node app
 ````
 
-App will be running on http://localhost:3000
+App will be running on http://localhost:5000
